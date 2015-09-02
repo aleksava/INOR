@@ -1,0 +1,18 @@
+a)  Forskjellen på kjørefeil og kompileringsfeil er hovedsakelig
+    at en kompileringsfeil er at det er noe feil i programmet, som gjør at
+    datamaskinen ikke forstår hva den skal gjøre. Typisk at en glemmer ";"
+    på slutten av en linje.
+    Mens en kjørefeil på en annen side, er når det er en feil som kompilatoren
+    ikke plukker opp, f.eks. å forsøke å gjøre teksten "fem" eller enda rarere
+    teksten "hallo" om til tall.
+
+b)  1.  Jeg ville gått tilbake i kildekoden og endret "Class" med stor forbokstav
+        til "class" med liten forbokstav
+    2.  Den andre feilmeldingen kommer som et resultat av den første, pga. den første
+        feilen, så jobber nå java ut fra feil utgangspunkt. Dermed finner den feil
+        som ikke egentlig er feil.
+    3.  Finner ut hva som er feil ved å se på hvilken linje feilen er på, leser så
+        teksten som kommer etter "error: ". Der sier kompilatoren at den forventet
+        et ";".
+        Det mangler et ";" på slutten av println linja, det fikses enkelt ved å
+        legge til et ";"
