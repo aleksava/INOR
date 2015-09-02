@@ -13,7 +13,7 @@ public class MinOppgave2 {
     int num1 = Integer.parseInt(inputAdd.nextLine());
     System.out.print("and your second number: ");
     int num2 = Integer.parseInt(inputAdd.nextLine());
-    System.out.println(num1 + " added to " + num2 + " equals " + (num1 + num2) + "\n");
+    System.out.println("\n" + num1 + " added to " + num2 + " equals " + (num1 + num2) + "\n");
   }
 
   static void Subtracting() {
@@ -22,7 +22,7 @@ public class MinOppgave2 {
     int num1 = Integer.parseInt(inputSub.nextLine());
     System.out.print("and your second number: ");
     int num2 = Integer.parseInt(inputSub.nextLine());
-    System.out.println(num1 + " subtracted " + num2 + " equals " + (num1 - num2) + "\n");
+    System.out.println("\n" + num1 + " subtracted " + num2 + " equals " + (num1 - num2) + "\n");
   }
 
   static void Dividing() {
@@ -31,7 +31,7 @@ public class MinOppgave2 {
     int num1 = Integer.parseInt(inputDiv.nextLine());
     System.out.print("and your second number: ");
     int num2 = Integer.parseInt(inputDiv.nextLine());
-    System.out.println(num1 + " divided by " + num2 + " equals " + (num1/num2) + "\n");
+    System.out.println("\n" + num1 + " divided by " + num2 + " equals " + (num1/num2) + "\n");
   }
 
   static void Multiplying() {
@@ -40,7 +40,7 @@ public class MinOppgave2 {
     int num1 = Integer.parseInt(inputMul.nextLine());
     System.out.print("and your second number: ");
     int num2 = Integer.parseInt(inputMul.nextLine());
-    System.out.println(num1 + " times " + num2 + " equals " + (num1*num2) + "\n");
+    System.out.println("\n" + num1 + " times " + num2 + " equals " + (num1*num2) + "\n");
   }
 
   static void Menu() {
