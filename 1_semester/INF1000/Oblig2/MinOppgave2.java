@@ -6,7 +6,7 @@
 import java.util.Scanner;
 
 public class MinOppgave2 {
-
+  //Method to add together two numbers
   static void Adding() {
     Scanner inputAdd = new Scanner(System.in);
     System.out.print("Please type in your first number: ");
@@ -15,7 +15,7 @@ public class MinOppgave2 {
     int num2 = Integer.parseInt(inputAdd.nextLine());
     System.out.println("\n" + num1 + " added to " + num2 + " equals " + (num1 + num2) + "\n");
   }
-
+  //Method to subtract two numbers
   static void Subtracting() {
     Scanner inputSub = new Scanner(System.in);
     System.out.print("Please type in your first number: ");
@@ -24,16 +24,21 @@ public class MinOppgave2 {
     int num2 = Integer.parseInt(inputSub.nextLine());
     System.out.println("\n" + num1 + " subtracted " + num2 + " equals " + (num1 - num2) + "\n");
   }
-
+  //Method to divide two numbers, exept dividing by zero
   static void Dividing() {
     Scanner inputDiv = new Scanner(System.in);
     System.out.print("Please type in your first number: ");
     int num1 = Integer.parseInt(inputDiv.nextLine());
     System.out.print("and your second number: ");
     int num2 = Integer.parseInt(inputDiv.nextLine());
-    System.out.println("\n" + num1 + " divided by " + num2 + " equals " + (num1/num2) + "\n");
+    if (num2 == 0) {
+      System.out.println("Math error, you can't divide by zero");
+    }
+    else {
+      System.out.println(num1 + " divided by " + num2 + " equals " + (num1/num2) + "\n");
+    }
   }
-
+  //Method to multiply two numbers
   static void Multiplying() {
     Scanner inputMul = new Scanner(System.in);
     System.out.print("Please type in your first number: ");
@@ -42,7 +47,7 @@ public class MinOppgave2 {
     int num2 = Integer.parseInt(inputMul.nextLine());
     System.out.println("\n" + num1 + " times " + num2 + " equals " + (num1*num2) + "\n");
   }
-
+  //Method to let the user controll which mathematical action he wants
   static void Menu() {
     System.out.println("\nFor addition, press 1");
     System.out.println("For subtraction, press 2");
@@ -54,6 +59,7 @@ public class MinOppgave2 {
   public static void main(String[] args) {
     Scanner input = new Scanner(System.in);
     boolean run = true;
+    //Created a loop that ends when the user tells it to
     while (run) {
       Menu();
       int choiceMenu = Integer.parseInt(input.nextLine());
