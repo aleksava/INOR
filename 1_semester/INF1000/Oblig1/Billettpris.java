@@ -17,7 +17,7 @@ import java.util.Scanner;
         if (omAlder == 42) {
           //La til en liten anekdote
           System.out.println("This is the answer to The Ultimate Question of Life, the Universe, and Everything.");
-          System.out.println("Og din billettpriser " + fullpris + "kr");
+          System.out.println("Og din billettpris er " + fullpris + "kr");
         }
         else {
           System.out.println("Din billettpris er " + fullpris +"kr");
