@@ -5,9 +5,11 @@
 import java.util.Scanner;
 public class MinOppgave1 {
   public static void main(String[] args) {
+
     //SPOERSMAAL 1
     System.out.println("Spoersmaal 1: What is the answer to life, the universe and everything?");
     System.out.print("Svar: ");
+
     //Deklarerer variabler og gjør muligheter for input
     Scanner innleser = new Scanner(System.in);
     int svar1 = innleser.nextInt();
