@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class MinOppgave2 {
   //Method to add together two numbers
-  static void Adding() {
+  static void adding() {
     Scanner inputAdd = new Scanner(System.in);
     System.out.print("Please type in your first number: ");
     int num1 = Integer.parseInt(inputAdd.nextLine());
@@ -16,7 +16,7 @@ public class MinOppgave2 {
     System.out.println("\n" + num1 + " added to " + num2 + " equals " + (num1 + num2) + "\n");
   }
   //Method to subtract two numbers
-  static void Subtracting() {
+  static void subtracting() {
     Scanner inputSub = new Scanner(System.in);
     System.out.print("Please type in your first number: ");
     int num1 = Integer.parseInt(inputSub.nextLine());
@@ -25,7 +25,7 @@ public class MinOppgave2 {
     System.out.println("\n" + num1 + " subtracted " + num2 + " equals " + (num1 - num2) + "\n");
   }
   //Method to divide two numbers, exept dividing by zero
-  static void Dividing() {
+  static void dividing() {
     Scanner inputDiv = new Scanner(System.in);
     System.out.print("Please type in your first number: ");
     int num1 = Integer.parseInt(inputDiv.nextLine());
@@ -39,7 +39,7 @@ public class MinOppgave2 {
     }
   }
   //Method to multiply two numbers
-  static void Multiplying() {
+  static void multiplying() {
     Scanner inputMul = new Scanner(System.in);
     System.out.print("Please type in your first number: ");
     int num1 = Integer.parseInt(inputMul.nextLine());
@@ -48,7 +48,7 @@ public class MinOppgave2 {
     System.out.println("\n" + num1 + " times " + num2 + " equals " + (num1*num2) + "\n");
   }
   //Method to let the user controll which mathematical action he wants
-  static void Menu() {
+  static void menu() {
     System.out.println("\nFor addition, press 1");
     System.out.println("For subtraction, press 2");
     System.out.println("For divition, press 3");
@@ -61,20 +61,20 @@ public class MinOppgave2 {
     boolean run = true;
     //Created a loop that ends when the user tells it to
     while (run) {
-      Menu();
+      menu();
       int choiceMenu = Integer.parseInt(input.nextLine());
       System.out.println("\n");
       if (choiceMenu == 1) {
-        Adding();
+        adding();
       }
       else if (choiceMenu == 2) {
-        Subtracting();
+        subtracting();
       }
       else if (choiceMenu == 3) {
-        Dividing();
+        dividing();
       }
       else if (choiceMenu == 4) {
-        Multiplying();
+        multiplying();
       }
       else if (choiceMenu == 0){
         run = false;
