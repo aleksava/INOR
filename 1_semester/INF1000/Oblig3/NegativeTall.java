@@ -29,7 +29,8 @@ public class NegativeTall {
 
     //Printing out the changed array
     counter = 0;
-    System.out.println("The negative numbers in the array \nhave now been replaced with their number in the array.\n"); 
+    System.out.print("The negative numbers in the array ");
+    System.out.println("have now been replaced with their number in the array.\n");
     System.out.print("The new array is now: ");
     while (counter < lengthNumbers) {
       System.out.print(numbers[counter] + " ");
