@@ -33,19 +33,17 @@ public class FirstArray {
     nameArray[4] = input.nextLine();
 
     //Printing out int array
-    int lengthArray = array.length;
     System.out.println("\nContent of int array: ");
     counter = 0;
-    while (counter < lengthArray) {
+    while (counter < array.length) {
       System.out.println(array[counter]);
       counter ++;
     }
 
     //Printing out String array
-    int lengthStringArray = nameArray.length;
     System.out.println("\nContent of String array: ");
     counter = 0;
-    while (counter < lengthStringArray) {
+    while (counter < nameArray.length) {
       System.out.println(nameArray[counter]);
       counter ++;
     }
