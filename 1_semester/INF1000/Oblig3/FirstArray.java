@@ -10,6 +10,18 @@ public class FirstArray {
     array[2] = 2;
     array[3] = 1337;
 
+    //Changing the array with a loop
+    counter = 0;
+    while (counter < array.length) {
+      if (counter == 0 || counter == 3) {
+        array[counter] = 1337;
+      }
+      else {
+        array[counter] = counter;
+      }
+      counter ++;
+    }
+
     //Declaring String array
     Scanner input = new Scanner(System.in);
     String nameArray [] = new String [5];
@@ -23,15 +35,16 @@ public class FirstArray {
     //Printing out int array
     int lengthArray = array.length;
     System.out.println("\nContent of int array: ");
+    counter = 0;
     while (counter < lengthArray) {
       System.out.println(array[counter]);
       counter ++;
     }
 
     //Printing out String array
-    counter = 0;
     int lengthStringArray = nameArray.length;
     System.out.println("\nContent of String array: ");
+    counter = 0;
     while (counter < lengthStringArray) {
       System.out.println(nameArray[counter]);
       counter ++;
