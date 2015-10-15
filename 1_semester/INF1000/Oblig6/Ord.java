@@ -15,12 +15,12 @@ class Ord {
   }
 
   //Collects the amount of times the word has shown up
-  public int getAmount() {
+  public int hentAntall() {
     return amount;
   }
 
   //Notices that a word has shown up previously
-  public void incAmount() {
+  public void oekAntall() {
     amount ++;
   }
 }

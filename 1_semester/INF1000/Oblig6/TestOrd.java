@@ -1,11 +1,17 @@
 class TestOrd {
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception{
     String tekst = "";
     Ord test = new Ord("apekatt");
     Ord jungle = new Ord("panther");
-    test.incAmount();
+    test.oekAntall();
     System.out.println("First word: " + test.toString() + " " +
-                        test.getAmount() + "\nSecond word: " +
-                        jungle.toString() + " " + jungle .getAmount());
+                        test.hentAntall() + "\nSecond word: " +
+                        jungle.toString() + " " + jungle .hentAntall());
+
+    Ordliste list = new Ordliste();
+    list.lesBok("scarlet.text");
+    System.out.println("bok");
+    System.out.println(list.finnOrd("of") + "of");
+    list.leggTilOrd("test");
   }
 }
