@@ -31,10 +31,8 @@ class Ordliste {
   //Adds a new word to the wordlist, given it doesn't exists there allready
   //If the word allready exists, increase the amount by 1
   //NB! Ignore differences in capital and non-capital letters
-  public void leggTilOrd(String ord) throws Exception {
+  public void leggTilOrd(String ord) {
     String temporary = ord;
-    Boolean exist = false;
-    int tempNum = 0;
 
     if (finnOrd(temporary) == null) {
       wordList.add(new Ord(temporary));
@@ -48,12 +46,10 @@ class Ordliste {
   //exists, then it returns null
   public Ord finnOrd(String tekst) {
     String temporary = tekst;
-    int tempNum = 0;
-    boolean yay = false;
 
     for (int i = 0; i < wordList.size(); i++) {
       if (temporary.equalsIgnoreCase(wordList.get(i).toString())) {
-        return wordList.get(tempNum);
+        return wordList.get(i);
       }
     }
     return null;
@@ -61,9 +57,10 @@ class Ordliste {
 
   //Figuers out how many times a given word appears in the dictionary, and
   //returns this
-//  public int antallForekomster(String tekst) {
-
-  //}
+  public int antallForekomster(String tekst) {
+    String temporary = tekst;
+    return finnOrd(temporary).hentAntall();
+  }
 
   public int antallOrd() {
     return wordList.size();
@@ -71,7 +68,13 @@ class Ordliste {
 
   //Finds and returns the most common word in the book. If there are
   //multiple words that are the most common, giving one of them is enough
-  //public Ord vanligste() {
-
-  //}
+  public Ord vanligste() {
+    int mostCommon = 0;
+    for (int i = 0; i < wordList.size(); i++) {
+      if (wordList.get(i).hentAntall() > wordList.get(mostCommon).hentAntall()) {
+        mostCommon = i;
+      }
+    }
+    return wordList.get(mostCommon);
+  }
 }

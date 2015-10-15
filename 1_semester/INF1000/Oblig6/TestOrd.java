@@ -11,7 +11,11 @@ class TestOrd {
     Ordliste list = new Ordliste();
     list.lesBok("scarlet.text");
     System.out.println("bok");
-    System.out.println(list.finnOrd("of") + "of");
+    System.out.println(list.finnOrd("of"));
+    System.out.println(list.finnOrd("datamaskin"));
     list.leggTilOrd("test");
+    System.out.println(list.finnOrd("test"));
+    System.out.println(list.antallForekomster("of") + " of");
+    System.out.println(list.vanligste().toString());
   }
 }
