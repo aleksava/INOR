@@ -1,37 +1,33 @@
+//Importing the needed tools
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
 
 class Ordliste {
 
-  //Declaring filereader, arraylist and so on.
-  ArrayList<Ord> wordList= new ArrayList<Ord>();
+  //Declaring ArrayList
+  ArrayList<Ord> wordList= new ArrayList<>();
 
   //Reads all the words in a file and adds them to the list of the words
   //NB! a word should not appear multiple times
   public void lesBok(String filnavn) throws Exception {
-    String temporary = "hei";
     Scanner input = new Scanner(new File(filnavn));
 
-
-
     while(input.hasNextLine()) {
-      //System.out.println("while");
+
       //Testing if the wordList is empty, and if it is then it adds the first
       //word of the book
       if (wordList.isEmpty()) {
         wordList.add(new Ord(input.nextLine()));
-        System.out.println(wordList.subList(0,1));
       }
       leggTilOrd(input.nextLine());
     }
-    System.out.println(wordList.subList(0,20));
   }
 
   //Adds a new word to the wordlist, given it doesn't exists there allready
   //If the word allready exists, increase the amount by 1
   //NB! Ignore differences in capital and non-capital letters
-  public void leggTilOrd(String ord) {
+  private void leggTilOrd(String ord) {
     String temporary = ord;
 
     if (finnOrd(temporary) == null) {

@@ -9,7 +9,7 @@ class Ord {
   }
 
   //Returning the word that was read, e.g.
-  //new Ord("skog"). toString() returns "skog"
+  //new Ord("skog").toString() returns "skog"
   public String toString() {
     return word;
   }

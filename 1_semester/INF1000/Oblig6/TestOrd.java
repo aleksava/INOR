@@ -13,8 +13,7 @@ class TestOrd {
     System.out.println("bok");
     System.out.println(list.finnOrd("of"));
     System.out.println(list.finnOrd("datamaskin"));
-    list.leggTilOrd("test");
-    System.out.println(list.finnOrd("test"));
+        System.out.println(list.finnOrd("test"));
     System.out.println(list.antallForekomster("of") + " of");
     System.out.println(list.vanligste().toString());
   }
