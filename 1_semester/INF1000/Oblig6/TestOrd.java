@@ -16,5 +16,9 @@ class TestOrd {
         System.out.println(list.finnOrd("test"));
     System.out.println(list.antallForekomster("of") + " of");
     System.out.println(list.vanligste().toString());
+    System.out.println("'Holmes' appear " + list.antallForekomster("Holmes") +
+                        " times in the text.");
+    System.out.println("'elementary' appear " + list.antallForekomster("elementary") +
+                        " times in the text.");
   }
 }

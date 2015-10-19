@@ -1,7 +1,7 @@
 class Ord {
   //Declaring variables
   private String word;
-  private int amount;
+  private int amount = 1;
 
   //Constructor
   Ord (String tekst) {

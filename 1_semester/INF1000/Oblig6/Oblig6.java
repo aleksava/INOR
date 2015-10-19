@@ -9,16 +9,16 @@ class Oblig6 {
 
     //Hvor mange ganger forekommer ordet "Holmes"?
     System.out.println("'Holmes' appear " + list.antallForekomster("Holmes") +
-                        " times in the text.");
+                        " time(s) in the text.");
 
     //Hvor mange ganger forekommer "elementary"?
-    System.out.println("'elementary' appear " + test +
-                        " times in the text.");
+    System.out.println("'elementary' appear " + list.antallForekomster("elementary") +
+                        " time(s) in the text.");
 
     //Hvilket ord forekommer flest ganger?
     System.out.println("The most common word in the text is '" +
                         list.vanligste().toString() + "' and it appears " +
                         list.antallForekomster(list.vanligste().toString()) + " times.\n");
-    
+
   }
 }
