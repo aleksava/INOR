@@ -3,23 +3,22 @@ class Ord {
   private String word;
   private int amount = 1;
 
-  //Constructor
+  //Oppretter et Ord-objekt av den gitte teksten
   Ord (String tekst) {
     word = tekst;
   }
 
-  //Returning the word that was read, e.g.
-  //new Ord("skog").toString() returns "skog"
+  //Returnerer ordet
   public String toString() {
     return word;
   }
 
-  //Collects the amount of times the word has shown up
+  //Henter data om hvor mange ganger ordet forekommer
   public int hentAntall() {
     return amount;
   }
 
-  //Notices that a word has shown up previously
+  //Registrerer at ordet har forekommet en gang til
   public void oekAntall() {
     amount ++;
   }

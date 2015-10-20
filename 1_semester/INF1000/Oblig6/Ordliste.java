@@ -13,6 +13,7 @@ class Ordliste {
   public void lesBok(String filnavn) throws Exception {
     Scanner input = new Scanner(new File(filnavn));
 
+    //Using a while-loop to run through the entire file
     while(input.hasNextLine()) {
 
       //Testing if the wordList is empty, and if it is then it adds the first
@@ -20,6 +21,8 @@ class Ordliste {
       if (wordList.isEmpty()) {
         wordList.add(new Ord(input.nextLine()));
       }
+
+      //Using the method leggTilOrd() to add the next word in the file
       leggTilOrd(input.nextLine());
     }
   }
@@ -30,9 +33,14 @@ class Ordliste {
   private void leggTilOrd(String ord) {
     String temporary = ord;
 
+    //Using the method finnOrd to figure out whether or not the given word
+    //allready exists in the wordlist. If it doesn't then it adds the word
     if (finnOrd(temporary) == null) {
       wordList.add(new Ord(temporary));
     }
+
+    //If the word allready exists, then this part increases the amount of
+    //times it appears
     else {
       finnOrd(temporary).oekAntall();
     }
@@ -43,6 +51,8 @@ class Ordliste {
   public Ord finnOrd(String tekst) {
     String temporary = tekst;
 
+    //Running through the entire wordlist looking for a match, if it gets
+    //a match then it returns the given word, if not it returns null
     for (int i = 0; i < wordList.size(); i++) {
       if (temporary.equalsIgnoreCase(wordList.get(i).toString())) {
         return wordList.get(i);
@@ -58,6 +68,7 @@ class Ordliste {
     return finnOrd(temporary).hentAntall();
   }
 
+  //Finner ut og returnerer hvor mange ulike ord det finnes i ordlisten
   public int antallOrd() {
     return wordList.size();
   }
@@ -66,6 +77,9 @@ class Ordliste {
   //multiple words that are the most common, giving one of them is enough
   public Ord vanligste() {
     int mostCommon = 0;
+
+    //Running through the entire wordlist and continuously updating the most
+    //common word. 
     for (int i = 0; i < wordList.size(); i++) {
       if (wordList.get(i).hentAntall() > wordList.get(mostCommon).hentAntall()) {
         mostCommon = i;
