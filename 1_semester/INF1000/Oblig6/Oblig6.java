@@ -2,7 +2,6 @@ class Oblig6 {
   public static void main(String[] args) throws Exception {
     Ordliste list = new Ordliste();
     list.lesBok("scarlet.text");
-    int test = list.antallForekomster("elementary");
 
     //Hvor mange ulike ord forekommer i boken?
     System.out.println("\nThere are " + list.antallOrd() + " unique words in the book.");
