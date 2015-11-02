@@ -13,13 +13,10 @@ class Test7 {
 
     System.out.println("Testing DVDAdministrasjon");
     DVDAdministrasjon test = new DVDAdministrasjon("dvdarkiv.txt");
-    //test.loadFile("dvdarkiv.txt");
-    //System.out.println(test.findPerson("Per").toString());
-    test.addPerson("Aleksander");
-    test.addPerson("Aleksander");
-    System.out.println("Her er personen Aleksander: " + test.findPerson("Aleksander"));
-    //test.printAll();
+    test.addPersonInterace();
 
     test.showPersonInterface();
+
+    test.menu();
   }
 }

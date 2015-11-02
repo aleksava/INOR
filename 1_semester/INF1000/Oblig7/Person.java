@@ -2,7 +2,6 @@ import java.util.HashMap;
 
 class Person {
   private String name;
-
   private HashMap<String, DVD> allDVDs = new HashMap<>();
 
   //Constructor
@@ -26,7 +25,7 @@ class Person {
   //persons possession
   public DVD findDVD(String title) {
     for(DVD aDVD: allDVDs.values()) {
-      if(aDVD.toString() == title) {
+      if(title.equals(aDVD.toString())) {
         return aDVD;
       }
     }
@@ -37,7 +36,7 @@ class Person {
   public String printDVDs() {
     String printString = "";
     for(String key: allDVDs.keySet()) {
-      printString += key;
+      printString += "\n" + key;
       DVD aDVD = findDVD(key);
       if(aDVD.getOwner() == aDVD.getPossession()){
         printString += "";
@@ -66,8 +65,6 @@ class Person {
       }
       else {
         aDVD.changePossession(name);
-        System.out.println("There you go, you have now borrowed " +
-                            aDVD.toString() + "\n");
       }
     }
   }
@@ -94,9 +91,10 @@ class Person {
     for(DVD aDVD: allDVDs.values()) {
       if(aDVD.getOwner() != aDVD.getPossession()) {
         borrowedAway ++;
+        total ++;
       }
       else {
-        borrowedAway ++;
+        total ++;
       }
     }
     returnString = "This person has " + total + " DVDs in his collection. " +

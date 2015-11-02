@@ -38,10 +38,8 @@ class DVDAdministrasjon {
     while(fileScan.hasNextLine() && !(line.equals("-"))) {
       line = fileScan.nextLine();
       if(!(line.equals("-"))) {
-        System.out.println("Linja er ulik '-'");
         if(findPerson(line) == null){
           addPerson(line);
-          System.out.println("Made a new person: " + line);
         }
       }
     }
@@ -52,8 +50,6 @@ class DVDAdministrasjon {
         breakTest = true;
         line = fileScan.nextLine();
         owner = findPerson(line);
-        System.out.println("Line: " + line);
-        System.out.println("Owner: " + owner.toString());
         if(owner == null) {
           System.out.println("There was an error in reading the file. " +
                               "Please check the file, and try again");
@@ -61,19 +57,18 @@ class DVDAdministrasjon {
         }
         while(breakTest == true && !(line.equals("#"))) {
           line = fileScan.nextLine();
-          System.out.println("Current DVD being processed: " + line);
           if(line.equals("-")) {
             breakTest = false;
           }
           else {
-            dvdTitle = line;
+            if(!(line.equals("#"))) {
+              dvdTitle = line;
+            }
             if(line.startsWith("*")) {
               dvdTitle = line.substring(1);
             }
-            System.out.println("1 REMOVE THIS!!! " + dvdTitle);
             owner.newDVD(dvdTitle);
             if(line.startsWith("*") && !(line.equals("#"))) {
-              System.out.println("2 REMOVE THIS!!! " + dvdTitle);
               line = fileScan.nextLine();
               owner.borrowAwayDVD(findPerson(line), dvdTitle);
             }
@@ -89,7 +84,6 @@ class DVDAdministrasjon {
   public Person findPerson(String name) {
     for(Person subject: persons.values()) {
       if(name.equals(subject.toString())) {
-        //System.out.println("Fant Aleksander");
         return subject;
       }
     }
@@ -133,7 +127,7 @@ class DVDAdministrasjon {
   }
 
   //Untestet as I cannot buy add new DVDs
-  public void borrowInterface() {
+  public void rentInterface() {
     Scanner input = new Scanner(System.in);
     String dvd = "";
     String borrower = "";
@@ -163,13 +157,13 @@ class DVDAdministrasjon {
       return;
     }
 
-    if(theDVD != null) {
+    if(theDVD != null && (theDVD.getPossession().equals(theDVD.getOwner()))) {
       theDVD.changePossession(borrow);
       System.out.println(borrower + " has now borrowed " + dvd + " from " +
                           owner);
     }
     else {
-      System.out.println(owner + " is not in posession of this DVD");
+      System.out.println(owner + " is not in possession of this DVD");
     }
   }
 
@@ -181,19 +175,85 @@ class DVDAdministrasjon {
     person = input.nextLine();
     if(person.equals("*")) {
       for (Person temp: persons.values()) {
-        System.out.println(temp.toString());
-        temp.printDVDs();
+        System.out.println("\n" + temp.toString());
+        System.out.println(temp.printDVDs());
       }
     }
     else {
-      System.out.println(findPerson(person).printDVDs());
+      System.out.print(findPerson(person).printDVDs() + "\n");
     }
   }
 
   public void showAllInterface() {
     for (Person temp: persons.values()) {
       System.out.println(temp.toString());
-      System.out.println(temp.collection());
+      System.out.println(temp.collection() + "\n");
     }
+  }
+
+  public void returnDVDInterface() {
+    Scanner input = new Scanner(System.in);
+    String dvdTitle = "";
+    String owner = "";
+    String borrower = "";
+
+    System.out.println("Who borrowed the DVD?");
+    borrower = input.nextLine();
+    System.out.println("Whose DVD is it?");
+    owner = input.nextLine();
+    System.out.println("Which DVD is it?");
+    dvdTitle = input.nextLine();
+
+    if(findPerson(owner) != null && findPerson(borrower) != null) {
+      if(findPerson(owner).returnDVD(dvdTitle, findPerson(borrower))){
+        System.out.println("The movie has been delivered!");
+      }
+      else {
+        System.out.println("This movie doesn't exist, therefore it can't be " +
+                            "delivered");
+      }
+    }
+    else {
+      System.out.println("One or both of these persons do not exist in this " +
+                          "system, therefore the DVD can't be delivered");
+    }
+  }
+
+  public void menu() {
+    Scanner input = new Scanner(System.in);
+    int choice = 10;
+    while(choice != 0) {
+      printMenu();
+      choice  = Integer.parseInt(input.nextLine());
+      System.out.println();
+      if(choice == 1) {
+        addPersonInterace();
+      }
+      if(choice == 2) {
+        buyInterface();
+      }
+      if(choice == 3) {
+        rentInterface();
+      }
+      if(choice == 4) {
+        showPersonInterface();
+      }
+      if(choice == 5) {
+        showAllInterface();
+      }
+      if(choice == 6) {
+        returnDVDInterface();
+      }
+    }
+  }
+
+  public void printMenu() {
+    System.out.println("\nPress 1 to add a new person");
+    System.out.println("Press 2 to add a new DVD");
+    System.out.println("Press 3 to rent a DVD");
+    System.out.println("Press 4 to show a person");
+    System.out.println("Press 5 to show all the persons");
+    System.out.println("Press 6 to return a DVD");
+    System.out.println("Press 0 to exit\n");
   }
 }
