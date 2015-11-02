@@ -17,9 +17,8 @@ class Test7 {
     //System.out.println(test.findPerson("Per").toString());
     test.addPerson("Aleksander");
     test.addPerson("Aleksander");
-    System.out.println(test.findPerson("Aleksander").toString());
-    //test.buy();
-    test.printAll();
+    System.out.println("Her er personen Aleksander: " + test.findPerson("Aleksander"));
+    //test.printAll();
 
     test.showPersonInterface();
   }

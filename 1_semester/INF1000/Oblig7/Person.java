@@ -25,9 +25,9 @@ class Person {
   //DVD with the matching key. Returns null if the DVD doesn't exists in this
   //persons possession
   public DVD findDVD(String title) {
-    for(String aDVD: allDVDs.keySet()) {
-      if(aDVD == title) {
-        return allDVDs.get(aDVD);
+    for(DVD aDVD: allDVDs.values()) {
+      if(aDVD.toString() == title) {
+        return aDVD;
       }
     }
     return null;
@@ -86,22 +86,22 @@ class Person {
 
   //Should have a sopl with all the borrowed dvds, borrowedAway dvds, and owned
   //dvds come back to this later
-  public void collection() {
+  public String collection() {
     int total = 0;
     int borrowedAway = 0;
-    int borrowed = 0;
+    String returnString = "";
+
     for(DVD aDVD: allDVDs.values()) {
-      if(aDVD.getOwner() != aDVD.getPossession() ||
-          this == aDVD.getPossession()) {
-        borrowed ++;
-      }
-      else if(aDVD.getOwner() == aDVD.getPossession()) {
-        total ++;
+      if(aDVD.getOwner() != aDVD.getPossession()) {
+        borrowedAway ++;
       }
       else {
         borrowedAway ++;
       }
     }
+    returnString = "This person has " + total + " DVDs in his collection. " +
+                    borrowedAway + " of those are borrowed away.";
+    return returnString;
   }
 
 

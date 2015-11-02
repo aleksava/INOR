@@ -32,43 +32,54 @@ class DVDAdministrasjon {
     Scanner fileScan = new Scanner(new File(filename));
     Person owner = null;
     String line = "";
+    String dvdTitle = "";
+    boolean breakTest = true;
 
-
-    while(fileScan.hasNextLine()) {
+    while(fileScan.hasNextLine() && !(line.equals("-"))) {
       line = fileScan.nextLine();
-
-      //Huston we have a problem, way to many person objects FIX IT!!
-      if(line != "-") {
+      if(!(line.equals("-"))) {
         System.out.println("Linja er ulik '-'");
         if(findPerson(line) == null){
-        persons.put(line, new Person(line));
+          addPerson(line);
+          System.out.println("Made a new person: " + line);
         }
-      }
-      else if(line == "-") {
-        line = fileScan.nextLine();
-        owner = findPerson(line);
-        while(line != "-") {
-          if(owner == null) {
-            System.out.println("There was an error in reading the file. " +
-                                "Please check the file, and try again");
-            return;
-          }
-          else {
-            System.out.println("REMOVE THIS!!! " + line);
-            owner.newDVD(line);
-          }
-        }
-      }
-      else if(line.startsWith("*")) {
-        String dvdTitle = line.substring(1);
-        System.out.println("REMOVE THIS!!! " + dvdTitle);
-        line = fileScan.nextLine();
-        owner.borrowAwayDVD(findPerson(line), dvdTitle);
       }
     }
-    for (String s: persons.keySet()) {
-      System.out.println(s);
 
+    while(fileScan.hasNextLine()) {
+
+      if(line.equals("-") && !(line.equals("#"))) {
+        breakTest = true;
+        line = fileScan.nextLine();
+        owner = findPerson(line);
+        System.out.println("Line: " + line);
+        System.out.println("Owner: " + owner.toString());
+        if(owner == null) {
+          System.out.println("There was an error in reading the file. " +
+                              "Please check the file, and try again");
+          return;
+        }
+        while(breakTest == true && !(line.equals("#"))) {
+          line = fileScan.nextLine();
+          System.out.println("Current DVD being processed: " + line);
+          if(line.equals("-")) {
+            breakTest = false;
+          }
+          else {
+            dvdTitle = line;
+            if(line.startsWith("*")) {
+              dvdTitle = line.substring(1);
+            }
+            System.out.println("1 REMOVE THIS!!! " + dvdTitle);
+            owner.newDVD(dvdTitle);
+            if(line.startsWith("*") && !(line.equals("#"))) {
+              System.out.println("2 REMOVE THIS!!! " + dvdTitle);
+              line = fileScan.nextLine();
+              owner.borrowAwayDVD(findPerson(line), dvdTitle);
+            }
+          }
+        }
+      }
     }
   }
 
@@ -76,10 +87,10 @@ class DVDAdministrasjon {
   //Goes through the HashMap of persons and returns the person with the given
   //name, if that person doesn't exist it returns null
   public Person findPerson(String name) {
-    for(String key: persons.keySet()) {
-      if(name == key) {
-        System.out.println("Fant Aleksander");
-        return persons.get(key);
+    for(Person subject: persons.values()) {
+      if(name.equals(subject.toString())) {
+        //System.out.println("Fant Aleksander");
+        return subject;
       }
     }
     return null;
@@ -107,18 +118,18 @@ class DVDAdministrasjon {
     System.out.println("And which dvd has he/she bought?");
     dvd = input.nextLine();
 
-    /*if(findPerson(buyer) == null) {
+    if(findPerson(buyer) == null) {
       System.out.println(buyer + " is not in our system, please add " +
                           "this person before you buy a dvd");
       return;
     }
     else if(findPerson(buyer).findDVD(dvd) != null) {
       System.out.println(buyer + " allready has this dvd, it is ill " +
-                          "advised to own to similar DVDs, please return it");
+                          "advised to own two similar DVDs, please return it");
     }
-    else {*/
+    else {
       findPerson(buyer).newDVD(dvd);
-    //}
+    }
   }
 
   //Untestet as I cannot buy add new DVDs
@@ -168,8 +179,11 @@ class DVDAdministrasjon {
     String person = "";
     System.out.println("Who would you like info for? (Press '*' for all)");
     person = input.nextLine();
-    if(person == "*") {
-      printAll();
+    if(person.equals("*")) {
+      for (Person temp: persons.values()) {
+        System.out.println(temp.toString());
+        temp.printDVDs();
+      }
     }
     else {
       System.out.println(findPerson(person).printDVDs());
@@ -179,15 +193,7 @@ class DVDAdministrasjon {
   public void showAllInterface() {
     for (Person temp: persons.values()) {
       System.out.println(temp.toString());
-      temp.collection();
-    }
-  }
-
-  //Used in showPerson in case it wants all the persons
-  public void printAll() {
-    for (Person temp: persons.values()) {
-      System.out.println(temp.toString());
-      temp.printDVDs();
+      System.out.println(temp.collection());
     }
   }
 }
