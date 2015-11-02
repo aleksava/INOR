@@ -3,7 +3,7 @@ import java.util.HashMap;
 class Person {
   private String name;
 
-  HashMap<String, DVD> allDVDs = new HashMap<>();
+  private HashMap<String, DVD> allDVDs = new HashMap<>();
 
   //Constructor
   public Person (String name) {
@@ -25,26 +25,28 @@ class Person {
   //DVD with the matching key. Returns null if the DVD doesn't exists in this
   //persons possession
   public DVD findDVD(String title) {
-    for(String s: allDVDs.keySet()) {
-      if(s == title) {
-        return allDVDs.get(s);
+    for(String aDVD: allDVDs.keySet()) {
+      if(aDVD == title) {
+        return allDVDs.get(aDVD);
       }
     }
     return null;
   }
 
   //Printing out all the DVDs this person has
-  public void printDVDs() {
+  public String printDVDs() {
+    String printString = "";
     for(String key: allDVDs.keySet()) {
-      System.out.print(key);
+      printString += key;
       DVD aDVD = findDVD(key);
       if(aDVD.getOwner() == aDVD.getPossession()){
-        System.out.println("");
+        printString += "";
       }
       else {
-        System.out.println(" borrowed by " + aDVD.getPossession());
+        printString += (" borrowed by " + aDVD.getPossession().toString());
       }
     }
+    return printString;
   }
 
   //Returns the total amount of DVDs this person is in posession of

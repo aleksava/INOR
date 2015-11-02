@@ -1,5 +1,5 @@
 class Test7 {
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
     Person dave = new Person("Dave");
 
     dave.newDVD("Pulp Fiction");
@@ -7,10 +7,20 @@ class Test7 {
     System.out.println(dave.findDVD("Pulp Fiction").toString());
 
     System.out.println("New test");
-
     dave.printDVDs();
-
     System.out.println(dave.dvdAmount());
 
+
+    System.out.println("Testing DVDAdministrasjon");
+    DVDAdministrasjon test = new DVDAdministrasjon("dvdarkiv.txt");
+    //test.loadFile("dvdarkiv.txt");
+    //System.out.println(test.findPerson("Per").toString());
+    test.addPerson("Aleksander");
+    test.addPerson("Aleksander");
+    System.out.println(test.findPerson("Aleksander").toString());
+    //test.buy();
+    test.printAll();
+
+    test.showPersonInterface();
   }
 }
