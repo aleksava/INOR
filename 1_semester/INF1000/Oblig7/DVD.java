@@ -10,19 +10,22 @@ class DVD {
     this.possession = owner;
   }
 
+  //Returns the title of the DVD
   public String toString() {
     return title;
   }
 
+  //Returns the owner of the DVD
   public Person getOwner() {
     return owner;
   }
 
-  public void changePossession(Person name) {
-    possession = name;
-  }
-
+  //Returns the possession
   public Person getPossession() {
     return possession;
+  }
+  //Changes the possession of the DVD to the given name
+  public void changePossession(Person name) {
+    possession = name;
   }
 }

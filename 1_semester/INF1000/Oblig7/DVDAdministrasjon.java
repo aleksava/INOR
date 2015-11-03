@@ -93,6 +93,9 @@ class DVDAdministrasjon {
               dvdTitle = line.substring(1);
             }
             owner.newDVD(dvdTitle);
+
+            //Checks if the DVD is borrowed away, and if it is, it uses the
+            //method borrowAwayDVD to change possession
             if(line.startsWith("*") && !(line.equals("#"))) {
               line = fileScan.nextLine();
               owner.borrowAwayDVD(findPerson(line), dvdTitle);
@@ -140,11 +143,16 @@ class DVDAdministrasjon {
     System.out.println("And which dvd has he/she bought?");
     dvd = input.nextLine();
 
+    //Looks for the person called buyer and if he/she exists, and if he/she
+    //doesn't exist it prints out an error message.
     if(findPerson(buyer) == null) {
       System.out.println(buyer + " is not in our system, please add " +
                           "this person before you buy a dvd");
       return;
     }
+
+    //Looks for the DVD the buyer has bought, and if it does, makes sure
+    //the person can't own two similar DVDs.
     else if(findPerson(buyer).findDVD(dvd) != null) {
       System.out.println(buyer + " allready has this dvd, it is ill " +
                           "advised to own two similar DVDs, please return it");
@@ -167,6 +175,7 @@ class DVDAdministrasjon {
     Person own = null;
     DVD theDVD = null;
 
+    //User interface
     System.out.println("Which person would like to borrow a DVD?");
     borrower = input.nextLine();
     borrow = findPerson(borrower);
@@ -177,22 +186,31 @@ class DVDAdministrasjon {
     dvd = input.nextLine();
     theDVD = own.findDVD(dvd);
 
+    //Makes sure that if the borrower doesn't exists, the user gets an error
+    //message and it exits the method
     if(borrow == null) {
       System.out.println(borrower + " is not in our system, please add " +
                           "this person before you buy a dvd");
       return;
     }
+
+    //Makes sure that if the owner doesn't exists, the user gets an error
+    //message and it exits the method
     if(own == null) {
       System.out.println(owner + " is not in our system, please add " +
                           "this person before you buy a dvd");
       return;
     }
 
+    //Uses the method changePossession on the DVD in question, and says so to
+    //the user
     if(theDVD != null && (theDVD.getPossession().equals(theDVD.getOwner()))) {
       theDVD.changePossession(borrow);
       System.out.println(borrower + " has now borrowed " + dvd + " from " +
                           owner);
     }
+
+    //An error message if the owner is not in possession of the DVD
     else {
       System.out.println(owner + " is not in possession of this DVD");
     }
@@ -204,17 +222,24 @@ class DVDAdministrasjon {
     String person = "";
     System.out.println("Who would you like info for? (Press '*' for all)\n");
     person = input.nextLine();
+
+    //Looks for the input '*', and if it gets it, it prints the info for all
+    //persons in the register
     if(person.equals("*")) {
       for (Person temp: persons.values()) {
         System.out.println("\n" + temp.toString() + " owns: ");
         System.out.println(temp.printDVDs());
       }
     }
+
+    //Prints out the info for the spesific person requested.
     else {
       System.out.print(findPerson(person).printDVDs() + "\n");
     }
   }
 
+  //Shows info for all the users, amount of DVDs and amount of DVDs borrowed
+  //away
   public void showAllInterface() {
     for (Person temp: persons.values()) {
       System.out.println(temp.toString());
@@ -222,12 +247,14 @@ class DVDAdministrasjon {
     }
   }
 
+  //The user interface to return a DVD
   public void returnDVDInterface() {
     Scanner input = new Scanner(System.in);
     String dvdTitle = "";
     String owner = "";
     String borrower = "";
 
+    //UI
     System.out.println("Who borrowed the DVD?");
     borrower = input.nextLine();
     System.out.println("Whose DVD is it?");
@@ -235,6 +262,8 @@ class DVDAdministrasjon {
     System.out.println("Which DVD is it?");
     dvdTitle = input.nextLine();
 
+    //Checks that both persons exists and if they do, makes sure that the DVD
+    //also exists, and if both of those are true, the movie gets returned
     if(findPerson(owner) != null && findPerson(borrower) != null) {
       if(findPerson(owner).returnDVD(dvdTitle, findPerson(borrower))){
         System.out.println("\nThe movie has been delivered!");
@@ -250,7 +279,9 @@ class DVDAdministrasjon {
     }
   }
 
-  public void menu() {
+  //User interface for the menu, takes in input from the user, and initiates
+  //the correct methods
+  public void menuInterface() {
     Scanner input = new Scanner(System.in);
     int choice = 10;
     while(choice != 0) {
@@ -278,6 +309,7 @@ class DVDAdministrasjon {
     }
   }
 
+  //Prints the menu
   public void printMenu() {
     System.out.println("\nPress 1 to add a new person");
     System.out.println("Press 2 to add a new DVD");

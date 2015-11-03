@@ -69,6 +69,7 @@ class Person {
     }
   }
 
+  //Method to return a DVD, takes in the DVD title and it's borrower
   public boolean returnDVD(String title, Person borrower) {
     DVD aDVD = findDVD(title);
     if(aDVD == null) {
@@ -81,8 +82,8 @@ class Person {
     return false;
   }
 
-  //Should have a sopl with all the borrowed dvds, borrowedAway dvds, and owned
-  //dvds come back to this later
+  //Prints out this persons total amount of DVDs and the amount of which are
+  //borrowed away
   public String collection() {
     int total = 0;
     int borrowedAway = 0;
@@ -101,6 +102,4 @@ class Person {
                     borrowedAway + " of those are borrowed away.";
     return returnString;
   }
-
-
 }
