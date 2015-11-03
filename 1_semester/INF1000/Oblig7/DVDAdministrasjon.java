@@ -9,14 +9,19 @@ class DVDAdministrasjon {
   private HashMap<String, Person> persons = new HashMap<>();
   private String filename = "";
 
-  //Constructor
+  //Constructor for DVDAdministrasjon, it starts up the loadFile method, and
+  //gives it the file it's supposed to load. Also sets the filename for this
+  //object. (Which as of this version is not needed, but will be needed later)
   public DVDAdministrasjon(String filename) throws Exception {
     loadFile(filename);
     this.filename = filename;
   }
 
-  //Adds a new person to the HashMap persons
+  //Adds a new person to the HashMap persons, makes sure they don't allready
+  //exists in the HashMap
   public void addPerson(String name) {
+
+    //Uses the findPerson method to find a person with the given name
     if(findPerson(name) == null) {
       persons.put(name, new Person(name));
     }
@@ -25,45 +30,65 @@ class DVDAdministrasjon {
     }
   }
 
-  //Gets a filename through the Constructor for DVDAdministrasjon, reads a file
-  //and adds the given persons and gives them their DVDs. Also displays the
+  //Gets a filename through the constructor for DVDAdministrasjon, reads a file
+  //and adds the given persons and gives them their DVDs. Also takes car of the
   //DVDs that are borrowed away, and tho whom.
   public void loadFile(String filename) throws Exception {
+
+    //Declaring Scanner, and the different strings, and other pointers to use
+    //throughout the method. Could have gotten around the boolean one, but had
+    //insufficient time
     Scanner fileScan = new Scanner(new File(filename));
     Person owner = null;
     String line = "";
     String dvdTitle = "";
     boolean breakTest = true;
 
+    //Adds all the new persons to the persons archive
     while(fileScan.hasNextLine() && !(line.equals("-"))) {
       line = fileScan.nextLine();
       if(!(line.equals("-"))) {
-        if(findPerson(line) == null){
+        if(findPerson(line) == null) {
           addPerson(line);
         }
       }
     }
 
+    //Gives the persons from above their DVDs and also rents out the DVDs that
+    //are rented out
     while(fileScan.hasNextLine()) {
 
+      //Have used the '#' as the last line in the file, so that it stops at the
+      //correct timing.
       if(line.equals("-") && !(line.equals("#"))) {
         breakTest = true;
         line = fileScan.nextLine();
         owner = findPerson(line);
+
+        //A failsafe if there is something wrong with the file, kicks in if
+        //the method should try to give a person that doesn't exist a DVD.
         if(owner == null) {
           System.out.println("There was an error in reading the file. " +
                               "Please check the file, and try again");
           return;
         }
+
+        //Adds all the DVDs of one person to them, also rents away those that
+        //should be rented away.
         while(breakTest == true && !(line.equals("#"))) {
           line = fileScan.nextLine();
           if(line.equals("-")) {
             breakTest = false;
           }
           else {
+
+            //Makes sure that the file hasen't ended yet
             if(!(line.equals("#"))) {
               dvdTitle = line;
             }
+
+            //Corrects the name of the DVDs that are rented out, given that
+            //these starts with a '*'.
             if(line.startsWith("*")) {
               dvdTitle = line.substring(1);
             }
@@ -90,7 +115,8 @@ class DVDAdministrasjon {
     return null;
   }
 
-
+  //The user interface to manually add a new person to the persons archive
+  //Uses the addPerson method to do this.
   public void addPersonInterace() {
     Scanner input = new Scanner(System.in);
     String newPerson = "";
@@ -100,7 +126,9 @@ class DVDAdministrasjon {
   }
 
 
-  //Getting nullPointerException when looking for the dvd search
+  //The user interface for when a user wants to add a new dvd to his/her
+  //archive. Makes sure the user doesn't own two similar dvds and that the user
+  //is in the system.
   public void buyInterface() {
     Scanner input = new Scanner(System.in);
     String buyer = "";
@@ -126,7 +154,10 @@ class DVDAdministrasjon {
     }
   }
 
-  //Untestet as I cannot buy add new DVDs
+  //The user interface to rent a DVD from another user. The method asks who
+  //wants to rent, who that person is renting from and which DVD.
+  //It gives back appropriate error messages if something is wrong on the
+  //users end
   public void rentInterface() {
     Scanner input = new Scanner(System.in);
     String dvd = "";
@@ -171,11 +202,11 @@ class DVDAdministrasjon {
   public void showPersonInterface() {
     Scanner input = new Scanner(System.in);
     String person = "";
-    System.out.println("Who would you like info for? (Press '*' for all)");
+    System.out.println("Who would you like info for? (Press '*' for all)\n");
     person = input.nextLine();
     if(person.equals("*")) {
       for (Person temp: persons.values()) {
-        System.out.println("\n" + temp.toString());
+        System.out.println("\n" + temp.toString() + " owns: ");
         System.out.println(temp.printDVDs());
       }
     }
@@ -206,15 +237,15 @@ class DVDAdministrasjon {
 
     if(findPerson(owner) != null && findPerson(borrower) != null) {
       if(findPerson(owner).returnDVD(dvdTitle, findPerson(borrower))){
-        System.out.println("The movie has been delivered!");
+        System.out.println("\nThe movie has been delivered!");
       }
       else {
-        System.out.println("This movie doesn't exist, therefore it can't be " +
+        System.out.println("\nThis movie doesn't exist, therefore it can't be " +
                             "delivered");
       }
     }
     else {
-      System.out.println("One or both of these persons do not exist in this " +
+      System.out.println("\nOne or both of these persons do not exist in this " +
                           "system, therefore the DVD can't be delivered");
     }
   }
