@@ -279,6 +279,22 @@ class DVDAdministrasjon {
     }
   }
 
+  //A futile attempt at printing to file
+  /*public void printFile() throws Exception {
+    PrintWriter writer = new PrintWriter("testFile.txt");
+
+    for(Person subject: persons.values()) {
+      writer.println(subject);
+    }
+
+    writer.println("-");
+
+    for(Person subject: persons.values()) {
+      writer.println(subject);
+      for(DVD aDVD: subject.)
+    }
+  }*/
+
   //User interface for the menu, takes in input from the user, and initiates
   //the correct methods
   public void menuInterface() {
