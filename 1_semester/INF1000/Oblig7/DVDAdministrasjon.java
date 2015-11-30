@@ -269,31 +269,32 @@ class DVDAdministrasjon {
         System.out.println("\nThe movie has been delivered!");
       }
       else {
-        System.out.println("\nThis movie doesn't exist, therefore it can't be " +
-                            "delivered");
+        System.out.println("\nThis movie doesn't exist, " +
+                            "therefore it can't be delivered");
       }
     }
     else {
-      System.out.println("\nOne or both of these persons do not exist in this " +
-                          "system, therefore the DVD can't be delivered");
+      System.out.println("\nOne or both of these persons do not exist in " +
+                          "this system, therefore the DVD can't be delivered");
     }
   }
 
   //A futile attempt at printing to file
-  /*public void printFile() throws Exception {
+  public void printFile() throws Exception {
     PrintWriter writer = new PrintWriter("testFile.txt");
+    writer.println("Testing 1");
 
     for(Person subject: persons.values()) {
-      writer.println(subject);
+      writer.println(subject.toString());
     }
 
     writer.println("-");
 
     for(Person subject: persons.values()) {
       writer.println(subject);
-      for(DVD aDVD: subject.)
+    //  for(DVD aDVD: subject.)
     }
-  }*/
+  }
 
   //User interface for the menu, takes in input from the user, and initiates
   //the correct methods

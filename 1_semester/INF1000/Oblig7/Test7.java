@@ -12,11 +12,12 @@ class Test7 {
 
 
     System.out.println("Testing DVDAdministrasjon");
-    DVDAdministrasjon test = new DVDAdministrasjon("dvdarkiv.txt");
+    DVDAdministrasjon test = new DVDAdministrasjon("dvdarchive.txt");
     test.addPersonInterace();
 
     test.showPersonInterface();
 
-    test.menu();
+    test.menuInterface();
+    test.printFile();
   }
 }
