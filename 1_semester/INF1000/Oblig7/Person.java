@@ -48,6 +48,11 @@ class Person {
     return printString;
   }
 
+  //Returns all the DVDs this person has in a HashMap
+  public HashMap getAllDVDs() {
+    return allDVDs;
+  }
+
   //Returns the total amount of DVDs this person is in posession of
   public int dvdAmount() {
     return allDVDs.size();

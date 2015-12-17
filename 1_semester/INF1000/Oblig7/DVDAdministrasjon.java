@@ -279,26 +279,57 @@ class DVDAdministrasjon {
     }
   }
 
-  //A futile attempt at printing to file
+  //A voluntary add-on to the assignment, a method that is automatically
+  //called when the program is shut down in the intended way. It prints out
+  //the updated info, with the same format as the given template.
   public void printFile() throws Exception {
-    PrintWriter writer = new PrintWriter("testFile.txt");
-    writer.println("Testing 1");
 
+    //Suppressed a warning about required HashMap<String,DVD>
+    //found HashMap, at line 307 at getAllDVDs().
+    @SuppressWarnings("unchecked")
+
+    //Declaring the PrintWriter, HashMap and other useful things
+    PrintWriter writer = new PrintWriter("dvdarchive.txt");
+    HashMap<String,DVD> subjectDVDs = new HashMap<String,DVD>();
+    int dashCounter = persons.size();
+
+    //Adding all the persons at the top of the list, with a "-" as a break
     for(Person subject: persons.values()) {
       writer.println(subject.toString());
     }
 
     writer.println("-");
 
+    //Adding each persons DVDs and marking the ones that are borrowed away
+    //as such, and to whom they are borrowed away to
     for(Person subject: persons.values()) {
+      dashCounter --;
+      subjectDVDs = subject.getAllDVDs();
       writer.println(subject);
-    //  for(DVD aDVD: subject.)
+      for(DVD aDVD: subjectDVDs.values()) {
+        if(aDVD.getPossession() == aDVD.getOwner()) {
+          writer.println(aDVD.toString());
+        }
+        else {
+          writer.println("*" + aDVD.toString());
+          writer.println(aDVD.getPossession().toString());
+        }
+      }
+
+      //Ending each persons DVD collection, unless it's the final one
+      if(dashCounter > 0) {
+        writer.println("-");
+      }
     }
+
+    //Ending the  file with a "#", which matches the given template
+    writer.println("#");
+    writer.close();
   }
 
   //User interface for the menu, takes in input from the user, and initiates
   //the correct methods
-  public void menuInterface() {
+  public void menuInterface() throws Exception {
     Scanner input = new Scanner(System.in);
     int choice = 10;
     while(choice != 0) {
@@ -323,6 +354,12 @@ class DVDAdministrasjon {
       if(choice == 6) {
         returnDVDInterface();
       }
+      if(choice == 0) {
+        System.out.println("I will now save and exit, thank you for using " +
+                            "me to control your DVD collection. ");
+        printFile();
+        System.out.println("Goodbye.\n");
+      }
     }
   }
 
@@ -334,6 +371,6 @@ class DVDAdministrasjon {
     System.out.println("Press 4 to show a person");
     System.out.println("Press 5 to show all the persons");
     System.out.println("Press 6 to return a DVD");
-    System.out.println("Press 0 to exit\n");
+    System.out.println("Press 0 to save and exit\n");
   }
 }
