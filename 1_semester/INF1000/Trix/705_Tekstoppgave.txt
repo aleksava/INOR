@@ -1,0 +1,28 @@
+7.05: Spørsmål om ArrayList
+
+a) Hva er fordelene og ulempene mellom ArrayList og arrays?
+    En array er mye enklere å begrense lenden på hvis dette er nødvendig, men
+    det er også en ulempe at en er nødt til å vite lengden på den før vi skal
+    bruke den.
+    Det er enklere å legge til nye filer til en ArrayList, grunnet at vi må
+    ikke først finne en tom plass for så å fylle denne, vi bruker bare ".add()"
+
+
+Gitt at vi har en ArrayList som tar vare på objekter av en klasse
+vi har laget selv
+
+b) Hvordan kan vi finne elementer med en gitt egenskap?
+    Vi kan bare bruke ".get()" metoden
+
+c) Når kan vi bruke ArrayList sin metode ".contains()"?
+    Vi kan bruke den når vi ønsker en boolean variabel om ArrayListen
+    inneholder et spesifikt objekt
+
+d) Når vil følgende kode returnere sant?
+    public boolean finnPerson(Person p){
+      if (personer.contains(p)){
+          return true;
+      }
+      return false;
+    }
+          Denne vil retunrere sant hvis Person p finnes i ArrayList'en

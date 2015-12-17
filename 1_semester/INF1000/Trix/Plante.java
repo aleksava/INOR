@@ -34,10 +34,10 @@ class Plante {
 
   //Om planten er levende skal det returnes 1, om ikke planten er levende skal
   // det returneres -1.
-  public int erLevende() {
+  public boolean erLevende() {
     if(alive) {
-      return 1;
+      return true;
     }
-    return -1;
+    return false;
   }
 }
