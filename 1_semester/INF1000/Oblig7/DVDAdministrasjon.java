@@ -358,7 +358,7 @@ class DVDAdministrasjon {
         System.out.println("I will now save and exit, thank you for using " +
                             "me to control your DVD collection. ");
         printFile();
-        System.out.println("Goodbye.\n");
+        System.out.println("Goodbye, sir.\n");
       }
     }
   }
