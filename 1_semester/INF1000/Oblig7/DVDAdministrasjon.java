@@ -332,6 +332,10 @@ class DVDAdministrasjon {
   public void menuInterface() throws Exception {
     Scanner input = new Scanner(System.in);
     int choice = 10;
+
+    System.out.println("\nWelcome to the interface for your DVD archive, here " +
+                        "are your options.");
+
     while(choice != 0) {
       printMenu();
       choice  = Integer.parseInt(input.nextLine());
