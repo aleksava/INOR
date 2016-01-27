@@ -15,6 +15,11 @@ class Katt {
     }
 
     else if(rottebol.getRodent() != null) {
+        System.out.println(name + " the cat, leapt from a bush and attacked " +
+                          rottebol.getRodent() + " the rat.");
+        rottebol.getRodent().attackRat();
+
+      /*
       if(rottebol.getRodent().status() || !rottebol.getRodent().status()) {
         System.out.println(name + " the cat, leapt from a bush and attacked " +
                             rottebol.getRodent() + " the rat.");
@@ -25,7 +30,7 @@ class Katt {
         System.out.println(name + " the cat, leapt from a bush and attacked " +
                             rottebol.getRodent() + " the rat.");
         rottebol.getRodent().murderRat();
-      }
+      }*/
     }
 
     else {
