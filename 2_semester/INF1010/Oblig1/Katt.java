@@ -19,18 +19,6 @@ class Katt {
                           rottebol.getRodent() + " the rat.");
         rottebol.getRodent().attackRat();
 
-      /*
-      if(rottebol.getRodent().status() || !rottebol.getRodent().status()) {
-        System.out.println(name + " the cat, leapt from a bush and attacked " +
-                            rottebol.getRodent() + " the rat.");
-        rottebol.getRodent().woundRat();
-      }
-
-      else {
-        System.out.println(name + " the cat, leapt from a bush and attacked " +
-                            rottebol.getRodent() + " the rat.");
-        rottebol.getRodent().murderRat();
-      }*/
     }
 
     else {
