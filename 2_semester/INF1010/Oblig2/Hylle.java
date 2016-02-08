@@ -1,22 +1,16 @@
-class Hylle <T> implements GenHylle<T> {
+class Hylle <E> implements GenHylle<E> {
 
-  @SuppressWarnings("unchecked")
-  private T[] shelf = (T[]) new Object[100];
+  private E[] shelf;
 
   public Hylle(int size) {
-    createArray(size);
-  }
-
-  public void createArray(int size) {
-    @SuppressWarnings("unchecked")
-    T[] shelf = (T[]) new Object[size];
+    shelf = (E[]) new Object[100];
   }
 
   public int size() {
     return shelf.length;
   }
 
-  public void place(T item, int num) {
+  public void place(E item, int num) {
     if(num >= shelf.length) {
       System.out.println("The shelf is to short for this spot, therefore " +
                           "the book fell off.");
@@ -39,8 +33,8 @@ class Hylle <T> implements GenHylle<T> {
     return false;
   }
 
-  public T take(int num) {
-    T obj;
+  public E take(int num) {
+    E obj;
     if(!vacant(num)) {
       obj = shelf[num];
       shelf[num] = null;
