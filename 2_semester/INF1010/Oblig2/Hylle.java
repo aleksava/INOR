@@ -6,7 +6,7 @@ class Hylle <E> implements GenHylle<E> {
   //A constructor that sends with the size of the shelf, and then declaring
   //the rest of the shelf.
   public Hylle(int size) {
-    shelf = (E[]) new Object[100];
+    shelf = (E[]) new Object[size];
   }
 
   //Returns the size of the shelf.
@@ -19,14 +19,14 @@ class Hylle <E> implements GenHylle<E> {
   public void place(E item, int num) {
 
     //Checking if the shelf is to short for the given spot.
-    if(num >= shelf.length) {
+    if(num >= shelf.length || num < 0) {
       System.out.println("The shelf is to short for this spot, therefore " +
                           "the book fell off.");
       return;
     }
 
     //Checking if the given spot is empty, so that the object can be placed.
-    else if(vacant(num)) {
+    if(vacant(num)) {
       shelf[num] = item;
       return;
     }
@@ -56,7 +56,7 @@ class Hylle <E> implements GenHylle<E> {
     }
 
     //Error message that prints if the spot is vacant.
-    System.out.println("This spot on the shelf is, sadly, allready empty.");
+    System.out.println("This spot on the shelf is, sadly, empty.");
     return null;
   }
 }
