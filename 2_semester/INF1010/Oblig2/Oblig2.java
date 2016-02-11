@@ -25,7 +25,7 @@ class Oblig2 {
   static void testReadTitleAndAuthor(Hylle<Bok> shelf, int spot) {
     Bok temp = shelf.take(spot);
     if(temp != null) {
-      System.out.println("The title of the book is " + temp + ". The author is "+
+      System.out.println("The title of the book is "+ temp +". The author is "+
                           temp.getAuthor() + ".");
       testPlaceBook(temp, shelf, spot);
     }
