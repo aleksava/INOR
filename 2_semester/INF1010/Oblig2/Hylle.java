@@ -6,6 +6,7 @@ class Hylle <E> implements GenHylle<E> {
   //A constructor that sends with the size of the shelf, and then declaring
   //the rest of the shelf.
   public Hylle(int size) {
+    @Suppresswarnings ("unchecked")
     shelf = (E[]) new Object[size];
   }
 
