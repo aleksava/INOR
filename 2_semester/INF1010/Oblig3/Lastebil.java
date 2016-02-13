@@ -1,7 +1,8 @@
 class Lastebil extends FossilBil {
-  double payload;
+  private double payload;
 
-  public Lastebil(double load) {
+  public Lastebil(String reg, double co2, double load) {
+    super(reg, co2);
     payload = load;
   }
 }

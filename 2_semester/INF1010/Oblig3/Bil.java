@@ -1,7 +1,11 @@
 class Bil {
-  String regNr;
+  protected String regNr;
 
   public Bil(String reg) {
     regNr = reg;
+  }
+
+  public String getPlate() {
+    return regNr;
   }
 }

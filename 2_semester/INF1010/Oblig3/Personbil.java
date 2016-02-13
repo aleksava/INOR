@@ -1,7 +1,12 @@
 class Personbil extends FossilBil {
-  int passengers;
+  private int passengers;
 
-  public Personbil(int pass) {
+  public Personbil(String reg, double co2, int pass) {
+    super(reg, co2);
     passengers = pass;
+  }
+
+  public int getPass() {
+    return passengers;
   }
 }
