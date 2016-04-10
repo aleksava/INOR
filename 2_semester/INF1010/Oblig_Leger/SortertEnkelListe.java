@@ -20,16 +20,10 @@ AbstraktSortertEnkelListe<E>, Iterable<E> {
   }
 
   private class ListeIterator implements Iterator<E> {
-
-    public ListeIterator() {
-    }
+    Node pos = head;
 
     public boolean hasNext() {
-      if(pos.next == null) {
-        return false;
-      }
-
-      return true;
+      return pos.next != null;
     }
 
     public E next() {
@@ -37,8 +31,6 @@ AbstraktSortertEnkelListe<E>, Iterable<E> {
         pos = pos.next;
         return pos.data;
       }
-
-      System.out.println("You have reached the end of the line, please sod off");
       return null;
     }
 
@@ -131,14 +123,24 @@ AbstraktSortertEnkelListe<E>, Iterable<E> {
       System.out.println(pos.data.toString());
       pos = pos.next;
     }
-    System.out.println("End of the line, now sod off");
   }
 
   public void recursivePrint() {
     if(head != null) head.print();
   }
 
-  public ListeIterator iterator() {
+  public Iterator<E> iterator() {
     return new ListeIterator();
+  }
+
+  public int size() {
+    int size = 0;
+    pos = head;
+    while(pos != null) {
+      size ++;
+      pos = pos.next;
+    }
+
+    return size;
   }
 }

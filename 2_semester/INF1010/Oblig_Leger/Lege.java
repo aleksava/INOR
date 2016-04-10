@@ -31,4 +31,8 @@ public class Lege implements Lik, KommuneAvtale, Comparable<Lege> {
   public int compareTo(Lege l) {
     return (toString().compareTo(l.toString()));
   }
+
+  public String print() {
+    return (name + ", " + contractNumber);
+  }
 }

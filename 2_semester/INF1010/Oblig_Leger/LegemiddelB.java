@@ -15,4 +15,14 @@ public class LegemiddelB extends Legemiddel {
   public int getAdd() {
     return addictive;
   }
+
+  public String print() {
+    if(volume == -1) {
+      return (super.print() + ", " + name+", pille, b, " + price + ", " +
+      pills + ", " + activeSubstanceTot + ", " + addictive);
+    }
+
+    return (super.print() + ", " + name + ", mikstur, b, " + price + ", " +
+            volume + ", " + activeSubstanceTot + ", " + addictive);
+  }
 }

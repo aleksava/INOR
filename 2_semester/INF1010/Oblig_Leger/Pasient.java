@@ -33,4 +33,9 @@ public class Pasient {
   public long getID() {
     return identity;
   }
+
+  public String print() {
+    return (patientNumber + ", " + name + ", " + identity + ", " + address +
+            ", " + areaCode);
+  }
 }

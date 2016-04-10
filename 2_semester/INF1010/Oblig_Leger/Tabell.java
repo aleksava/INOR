@@ -3,7 +3,6 @@ import java.util.*;
 class Tabell<E> implements AbstraktTabell<E>, Iterable<E> {
 
   private E[] table;
-  private int index;
 
   @SuppressWarnings("unchecked")
   public Tabell(int size) {
@@ -12,6 +11,7 @@ class Tabell<E> implements AbstraktTabell<E>, Iterable<E> {
 
   public boolean addAt(E obj, int i) {
     if(i > table.length || i < 0 || table[i] != null) {
+      System.out.println("hei fra add at");
       return false;
     }
 
@@ -21,11 +21,22 @@ class Tabell<E> implements AbstraktTabell<E>, Iterable<E> {
 
   public E getAt(int i) {
     if(i >= table.length || i < 0 || table[i] == null) {
-      System.out.println("Arr, tis not be possible, have a null");
       return null;
     }
 
     return table[i];
+  }
+
+  public int firstFreeSpot() {
+    for(int i = 0; i < table.length; i++) {
+      if(table[i] == null) return i;
+    }
+
+    return -1;
+  }
+
+  public int length() {
+    return table.length;
   }
 
   public Iterator<E> iterator() {
@@ -33,22 +44,15 @@ class Tabell<E> implements AbstraktTabell<E>, Iterable<E> {
   }
 
   private class ListeIterator implements Iterator<E> {
-    public boolean hasNext() {
-      if(index < 0 || index > table.length) {
-        return false;
-      }
+    int index = 0;
+    int length = table.length;
 
-      return true;
+    public boolean hasNext() {
+      return index < table.length;
     }
 
     public E next() {
-      if(hasNext()) {
-        index ++;
-        return table[index];
-      }
-
-      System.out.println("You have reached the end of the line, please sod off");
-      return null;
+      return table[index ++];
     }
 
     public void remove() {

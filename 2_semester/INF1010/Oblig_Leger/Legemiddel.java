@@ -34,4 +34,8 @@ public abstract class Legemiddel implements PilleMikstur {
   public int getPills() {
     return pills;
   }
+
+  public String print() {
+    return "" + serialNumber;
+  }
 }

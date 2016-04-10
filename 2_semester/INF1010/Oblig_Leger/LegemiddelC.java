@@ -9,4 +9,14 @@ public class LegemiddelC extends Legemiddel {
     this.volume = volume;
     this.activeSubstanceTot = activeSubstance;
   }
+
+  public String print() {
+    if(volume == -1) {
+      return (super.print() + ", " + name+", pille, c, " + price + ", " +
+      pills + ", " + activeSubstanceTot);
+    }
+
+    return (super.print() + ", " + name + ", mikstur, c, " + price + ", " +
+            volume + ", " + activeSubstanceTot);
+  }
 }

@@ -15,4 +15,15 @@ public class LegemiddelA extends Legemiddel {
   public int getNarc() {
     return narcotic;
   }
+
+  public String print() {
+    String form;
+    if(volume == -1) {
+      return (super.print() + ", " + name+", pille, a, " + price + ", " +
+      pills + ", " + activeSubstanceTot + ", " + narcotic);
+    }
+
+    return (super.print() + ", " + name + ", mikstur, a, " + price + ", " +
+            volume + ", " + activeSubstanceTot + ", " + narcotic);
+  }
 }
