@@ -8,6 +8,8 @@ class Oblig8 {
   public static void main(String[] args) {
     Oblig8 sudoku = new Oblig8("sudoku.txt");
     sudoku.sudokuBoard.showBoard();
+    sudoku.sudokuBoard.opprettDatastruktur();
+    sudoku.sudokuBoard.testPossibleNumbers();
   }
 
   public Oblig8(String s) {
@@ -57,13 +59,43 @@ class Oblig8 {
       }
 
       for(int j = 0; j < line.length; j++) {
-        board[i][j] = new Route(line[j], rows*columns);
-        //System.out.print(board[i][j]);
+        board[i][j] = new Route(tegnTilVerdi(line[j]), rows*columns);
       }
-      //System.out.println();
       i++;
     }
 
     return (new Board(board, rows, columns));
+  }
+
+  // Det er lov aa kopiere disse metodene inn i oppgaven uten aa bli mistenkt for fusk!
+  //
+  // Bruker du metodene som de er, maa du huske aa definere konstanten TOM_RUTE_TEGN
+  // og klassen UgyldigVerdiUnntak med en konstruktoer som passer til new-kallet
+
+  /**
+  * Oversetter et tegn (char) til en tallverdi (int)
+  *
+  * @param tegn      tegnet som skal oversettes
+  * @return          verdien som tegnet tilsvarer
+  */
+  public static int tegnTilVerdi(char tegn) {
+    if (tegn == 0) {                // tom rute
+        // DENNE KONSTANTEN MAA DEKLARERES
+        return 0;
+    } else if ('1' <= tegn && tegn <= '9') {    // tegn er i [1, 9]
+        return tegn - '0';
+    } else if ('A' <= tegn && tegn <= 'Z') {    // tegn er i [A, Z]
+        return tegn - 'A' + 10;
+    } else if (tegn == '@') {                   // tegn er @
+        return 36;
+    } else if (tegn == '#') {                   // tegn er #
+        return 37;
+    } else if (tegn == '&') {                   // tegn er &
+        return 38;
+    } else if ('a' <= tegn && tegn <= 'z') {    // tegn er i [a, z]
+        return tegn - 'a' + 39;
+    } else {                                    // tegn er ugyldig
+        return -1;
+    }
   }
 }

@@ -6,9 +6,9 @@ class Route {
   private Row row;
   private Column column;
 
-  public Route(char i, int dim) {
+  public Route(int i, int dim) {
     totalNumbers = dim;
-    value = Character.getNumericValue(i);
+    value = (i);
     if(value < 0 || value > totalNumbers) value = 0;
   }
 
@@ -36,5 +36,18 @@ class Route {
     column = c;
     if(value != 0) c.setValue(value);
     return (column == c);
+  }
+
+  public int[] finnAlleMuligeTall() {
+    if(value == 0) {
+      int[] allNumbers = new int[row.size()];
+      for(int i = 0; i < allNumbers.length; i++) {
+        allNumbers[i] = i + 1;
+      }
+
+      return row.possibleNumbers(column.possibleNumbers(box.possibleNumbers(allNumbers)));
+    }
+
+    return new int[]{value};
   }
 }
