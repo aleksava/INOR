@@ -2,6 +2,7 @@ import java.util.*;
 import java.io.*;
 
 class Sort {
+
   public static void  main(String[] args) {
 
       int lines = 0;
@@ -51,76 +52,130 @@ class Sort {
         }
         //System.out.println(rest + " rest");
          if(rest > 0) {
+            //System.out.println("Fra " + arrDivider + " Til: " + (arrDivider + linesPerThread + 1));
             threadArr = Arrays.copyOfRange(sortList, arrDivider, arrDivider + linesPerThread + 1);
             new Thread(new OurThread(threadArr, moni)).start();
-            //System.out.println("Fra " + arrDivider + " Til: " + (arrDivider + linesPerThread + 1));
             //System.out.println("linesPerThread: " + linesPerThread);
             arrDivider += linesPerThread + 1;
             rest--;
          }
 
          else {
-           //System.out.println("Fra " + arrDivider + " Til: " + (arrDivider + linesPerThread ));
+            //System.out.println("Fra " + arrDivider + " Til: " + (arrDivider + linesPerThread ));
             new Thread(new OurThread(Arrays.copyOfRange(sortList, arrDivider,
                        arrDivider + linesPerThread), moni)).start();
             arrDivider += linesPerThread;
          }
       }
+      //System.out.println(sortList[sortList.length - 1]);
 
-      moni.waitForThreads(threadCounter);
+      //moni.waitForThreads(threadCounter);
+      while(!moni.ready(lines)) {
+        //wait
+      }
+
       String[] q = moni.getFinalArr();
-      //System.out.println(q + "her er q!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        for(String e : q) {
-       System.out.println(e);
-   }
+
+      for(String e : q) {
+        System.out.println(e);
+      }
       System.out.println(q.length);
       System.out.println("Ferdig");
+
+      try {
+        PrintWriter outFile = new PrintWriter(new File(args[2]));
+        for(String e: q) {
+          outFile.println(e);
+        }
+        outFile.close();
+      }
+        catch(FileNotFoundException e) {
+          System.out.println("You need to write the name of the file in the terminal");
+        }
+
       System.exit(0);
    }
 }
 
 class OurThread extends Thread {
-   String[] unMerged;
-   String[] unMerged2;
-   String[] finalArr;
+   String[][] twoDArr;
+   String[] split1;
+   String[] split2;
    Monitor monitor;
 
    public OurThread(String[] arr, Monitor mon) {
-      this.unMerged = arr;
+      this.split1 = arr;
+      //System.out.println("Split1: " + split1.length);
       monitor = mon;
    }
 
    @Override
    public void run() {
-     //System.out.println("Thread id: " + Thread.currentThread().getId());
-      unMerged = monitor.sortArray(unMerged);
+     System.out.println("Thread id: " + Thread.currentThread().getId());
+     //for (String s : split1) {
+       //System.out.println("String s: " + s + ", " + Thread.currentThread().getId());
+     //}
+      split1 = monitor.sortArray(split1);
       //System.out.println(unMerged);
-      monitor.finishedThread(unMerged);
+      monitor.finishedThread(split1);
+      System.out.println("Ferdig sortert og levert: " + Thread.currentThread().getId());
 
-      while(monitor.oneOrLessArr()) {
+      /*while(monitor.oneOrLessArr()) {
         try {
           wait();
         }
         catch(Exception e) {}
-      }
+      }*/
 
       //System.out.println("woken!!");
-      unMerged = monitor.getArrays();
-      unMerged2 = monitor.getArrays();
+      //System.out.println("Hey ho, before any waits()");
 
-      if(unMerged != null && unMerged2 != null) {
-        mergeSort(unMerged, unMerged2);
-        monitor.finishedThread(finalArr);
-        monitor.countThread();
+      //System.out.println("Final spot in split2: " + split2[split2.length - 1]);
+      //System.out.println("Length of split1: " + split1.length);
+      //System.out.println("Length of split2: " + split2.length);
+      /*if(split1[split1.length - 1] == null) {
+        System.out.println("Definatly not in split1 if");
+        split1 = Arrays.copyOf(split1, split1.length - 2);
       }
+      if(split2[split2.length - 1] == null) {
+        System.out.println("Definatly not in split2 if");
+        split2 = Arrays.copyOf(split2, split2.length - 2);
+      }*/
 
+      //System.out.println("Hey ho, before notifyAll()");
+      //notifyAll();
+
+      //if(unMerged != null && unMerged2 != null) {
+
+      while(!monitor.oneOrLessArr()) {
+        twoDArr = monitor.getArrays();
+        split1 = twoDArr[0];
+        split2 = twoDArr[1];
+        try {
+          //System.out.println("heiho, for kallet av mergeSort()");
+          monitor.finishedThread(mergeSort(split1, split2));
+          System.out.println("Merged ID: " + Thread.currentThread().getId());
+          monitor.countThread();
+        }
+        catch(NullPointerException e) {
+          System.out.println("Error: ");
+          e.printStackTrace();
+          System.exit(1);
+        }
+      }
+      System.out.println("Nå døyr eg: " + Thread.currentThread().getId());
    }
 
-   public void mergeSort(String[] arr, String[] arr2) {
+   public String[] mergeSort(String[] arr, String[] arr2) {
 
      //System.out.println("arr " + arr.length);
      //System.out.println("arr2 " + arr.length);
-     finalArr = new String[arr.length + arr2.length];
+     //System.out.println("Index 0 arr2: " + arr2[0]);
+     String[] finalArr = new String[arr.length + arr2.length];
+
+     /*for(String s: arr2) {
+       System.out.println(s);
+     }*/
 
      int i = 0, j = 0, k = 0;
 
@@ -149,6 +204,8 @@ class OurThread extends Thread {
        j++;
      }
 
+     return finalArr;
+
      //System.out.println("ferdig sort!!!: " + Thread.currentThread().getId());
   }
 }
@@ -162,35 +219,43 @@ class Monitor {
 
    //is called in main, to show how the process is doing
    synchronized void waitForThreads(int counter) {
-     if(counter == 1){
-       counter = 2;
-     }
-      while(nThreads != counter -1 ) {
+
+      while(nThreads < (counter - 1) ) {
          try {
-            //System.out.println("Waiting for " + nThreads + " threads");
+            System.out.println("Waiting for " + (nThreads + 1) + " threads");
             wait();
          }
          catch(Exception e) {}
       }
    }
 
-   public void countThread() {
+   public synchronized  void countThread() {
      nThreads++;
-     //notifyAll();
+     notifyAll();
    }
 
    //is called in a thread when it's finished, not sure if it works/is finished
    synchronized void finishedThread(String[] arr) {
-      if(first == null) {
-          //System.out.println("firstArr verdi satt");
+     while(true) {
+       if(first == null) {
+         //System.out.println("firstArr verdi satt: " + arr);
          first = arr;
          notifyAll();
-      }
-      else if(second == null) {
-        //System.out.println("secondArr verdi satt");
+         break;
+       }
+       else if(second == null) {
+         //System.out.println("secondArr verdi satt");
          second = arr;
          notifyAll();
-      }
+         break;
+       }
+       else {
+         try {
+           wait();
+         } catch(Exception e) {}
+       }
+     }
+
 
       /*These if else doesnt work, have to make sure the third thread doesnt try to get both threads
       if(nThreads > 1) {
@@ -208,23 +273,26 @@ class Monitor {
       }*/
    }
 
-   synchronized String[] getArrays() {
-      String[] reArr = null;
-      if(first != null && second != null) {
-         reArr = first;
-         first = null;
-         //System.out.println("got firstArr");
-         return reArr;
-      }
+   synchronized String[][] getArrays() {
+      String[][] reArr = new String[2][0];
 
-      else if(second != null) {
-         reArr = second;
-         second = null;
-         //System.out.println("got secondArr");
-         return reArr;
+      /*while(second == null) {
+        try {
+          //System.out.println("The eternal wait in getArrays()");
+          //System.out.println("First: " + first);
+          //System.out.println("Second: " + second);
+          //wait();
+        }
+        catch(InterruptedException e) { System.exit(1); }
+      }*/
+      if(first != null && second != null) {
+        reArr[0] = first;
+        reArr[1] = second;
+        first = null;
+        second = null;
       }
+      return reArr;
       //System.out.println("Something has gone wrong, both shouldn't be empty");
-      return null;
    }
 
    public boolean oneOrLessArr() {
@@ -233,7 +301,7 @@ class Monitor {
       return false;
    }
 
-   public String[] sortArray(String[] arr) {
+   synchronized public String[] sortArray(String[] arr) {
       String temp;
 
       while(!isSorted(arr)) {
@@ -245,9 +313,6 @@ class Monitor {
                arr[i + 1] = temp;
              }
           }
-      }
-      for (String s : arr) {
-        //System.out.println(s + "\n");
       }
       return arr;
    }
@@ -261,6 +326,23 @@ class Monitor {
       return true;
    }
 
+   public synchronized boolean ready(int lines) {
+      if(first != null) {
+        //System.out.println(first.length + " first lengde");
+        if(first.length == lines) {
+          System.out.println("first");
+          return true;
+        }
+      }
+     else if(second != null) {
+       if(second.length == lines) {
+         System.out.println("second");
+         return true;
+       }
+     }
+     return false;
+   }
+
    public String[] getFinalArr(){
      if(first != null) {
        return first;
@@ -269,7 +351,7 @@ class Monitor {
        return second;
      }
      else {
-       //System.out.println("noe gikk galt, ingena arrayer her");
+       System.out.println("noe gikk galt, ingena arrayer her");
        return null;
      }
    }
