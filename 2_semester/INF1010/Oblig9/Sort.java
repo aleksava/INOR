@@ -4,7 +4,7 @@ import java.io.*;
 class Sort {
   public static void  main(String[] args) {
 
-      int threads = 0;
+      int lines = 0;
       int linesPerThread;
       String[] sortList = null;
       Monitor moni = new Monitor();
@@ -12,23 +12,25 @@ class Sort {
       int arrDivider = 0;
       Scanner in = null;
       File inFile = null;
+      int threadCounter = Integer.parseInt(args[0]);
 
       //crating the scanner for the file
       try {
-         inFile = new File(args[1]);
-         in = new Scanner(inFile);
-         sortList = new String[(int)inFile.length()];
+        inFile = new File(args[1]);
+        in = new Scanner(inFile);
       }
       catch(FileNotFoundException e) {
-         e.printStackTrace();
+        e.printStackTrace();
       }
 
       try {
-         threads = Integer.parseInt(in.nextLine());
+        lines = Integer.parseInt(in.nextLine());
       }
       catch(NumberFormatException e) {
-         e.printStackTrace();
+        e.printStackTrace();
       }
+
+      sortList = new String[lines];
 
       int counter = 0;
 
@@ -37,87 +39,118 @@ class Sort {
          counter++;
       }
 
-      linesPerThread = ((int)inFile.length() / threads);
-      rest = threads % linesPerThread;
+      linesPerThread = (lines / threadCounter);
+      rest = lines % threadCounter;
 
-      for ( int i = 0; i < threads; i++) {
+      String[] threadArr;
 
+      for ( int i = 0; i < threadCounter; i++) {
+
+        if((i == threadCounter -1) && (i != 0)){
+          arrDivider--;
+        }
+        //System.out.println(rest + " rest");
          if(rest > 0) {
-            new Thread(new OurThread(Arrays.copyOfRange(sortList, arrDivider,
-                       arrDivider + linesPerThread + rest), moni)).start();
-            arrDivider += linesPerThread + rest;
+            threadArr = Arrays.copyOfRange(sortList, arrDivider, arrDivider + linesPerThread + 1);
+            new Thread(new OurThread(threadArr, moni)).start();
+            //System.out.println("Fra " + arrDivider + " Til: " + (arrDivider + linesPerThread + 1));
+            //System.out.println("linesPerThread: " + linesPerThread);
+            arrDivider += linesPerThread + 1;
+            rest--;
          }
 
          else {
+           //System.out.println("Fra " + arrDivider + " Til: " + (arrDivider + linesPerThread ));
             new Thread(new OurThread(Arrays.copyOfRange(sortList, arrDivider,
                        arrDivider + linesPerThread), moni)).start();
             arrDivider += linesPerThread;
          }
-
-         rest--;
       }
+
+      moni.waitForThreads(threadCounter);
+      String[] q = moni.getFinalArr();
+      //System.out.println(q + "her er q!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        for(String e : q) {
+       System.out.println(e);
+   }
+      System.out.println(q.length);
+      System.out.println("Ferdig");
+      System.exit(0);
    }
 }
 
 class OurThread extends Thread {
-   String[] arr;
-   String[] arr2;
+   String[] unMerged;
+   String[] unMerged2;
    String[] finalArr;
    Monitor monitor;
 
    public OurThread(String[] arr, Monitor mon) {
-      this.arr = arr;
+      this.unMerged = arr;
       monitor = mon;
    }
 
    @Override
    public void run() {
-      arr = monitor.sortArray(arr);
-      monitor.finishedThread(arr);
+     //System.out.println("Thread id: " + Thread.currentThread().getId());
+      unMerged = monitor.sortArray(unMerged);
+      //System.out.println(unMerged);
+      monitor.finishedThread(unMerged);
 
       while(monitor.oneOrLessArr()) {
-         try {
-         wait();
-         }
-         catch(Exception e) {}
+        try {
+          wait();
+        }
+        catch(Exception e) {}
       }
 
-      arr = monitor.getArrays();
-      arr2 = monitor.getArrays();
-      mergeSort();
-      monitor.finishedThread(finalArr);
-   }
+      //System.out.println("woken!!");
+      unMerged = monitor.getArrays();
+      unMerged2 = monitor.getArrays();
 
-   public void mergeSort() {
-      finalArr = new String[arr.length + arr2.length];
-      int iCounter = 0;
-      int jCounter = 0;
-
-      for (int i = 0; i < finalArr.length; i++) {
-         if(iCounter >= arr.length) {
-            for (int k = jCounter; k < arr2.length; k++) {
-               finalArr[i] = arr2[k];
-               i++;
-            }
-         }
-         if(jCounter >= arr2.length) {
-            for (int l = iCounter; l < arr.length; l++) {
-            finalArr[i] = arr[l];
-            i++;
-            }
-         }
-         else {
-            if((arr[iCounter].compareTo(arr2[jCounter])) < 0) {
-            finalArr[i] = arr[iCounter];
-            iCounter++;
-            }
-            else {
-            finalArr[i] = arr2[jCounter];
-            jCounter++;
-            }
-         }
+      if(unMerged != null && unMerged2 != null) {
+        mergeSort(unMerged, unMerged2);
+        monitor.finishedThread(finalArr);
+        monitor.countThread();
       }
+
    }
+
+   public void mergeSort(String[] arr, String[] arr2) {
+
+     //System.out.println("arr " + arr.length);
+     //System.out.println("arr2 " + arr.length);
+     finalArr = new String[arr.length + arr2.length];
+
+     int i = 0, j = 0, k = 0;
+
+     while(i < arr.length && j < arr2.length) {
+       if(arr[i].compareTo(arr2[j]) < 0) {
+         finalArr[k] = arr[i];
+         k++;
+         i++;
+       }
+       else {
+         finalArr[k] = arr2[j];
+         k++;
+         j++;
+       }
+     }
+
+     while(i < arr.length) {
+       finalArr[k] = arr[i];
+       k++;
+       i++;
+     }
+
+     while(j < arr2.length) {
+       finalArr[k] = arr2[j];
+       k++;
+       j++;
+     }
+
+     //System.out.println("ferdig sort!!!: " + Thread.currentThread().getId());
+  }
 }
 
 class Monitor {
@@ -128,21 +161,38 @@ class Monitor {
    int nThreads;
 
    //is called in main, to show how the process is doing
-   public synchronized void waitForThreads() {
+   synchronized void waitForThreads(int counter) {
+     if(counter == 1){
+       counter = 2;
+     }
+      while(nThreads != counter -1 ) {
+         try {
+            //System.out.println("Waiting for " + nThreads + " threads");
+            wait();
+         }
+         catch(Exception e) {}
+      }
+   }
 
+   public void countThread() {
+     nThreads++;
+     //notifyAll();
    }
 
    //is called in a thread when it's finished, not sure if it works/is finished
-   public synchronized void finishedThread(String[] arr) {
+   synchronized void finishedThread(String[] arr) {
       if(first == null) {
+          //System.out.println("firstArr verdi satt");
          first = arr;
+         notifyAll();
       }
       else if(second == null) {
+        //System.out.println("secondArr verdi satt");
          second = arr;
-
+         notifyAll();
       }
 
-      //These if else doesnt work, have to make sure the third thread doesnt try to get both threads
+      /*These if else doesnt work, have to make sure the third thread doesnt try to get both threads
       if(nThreads > 1) {
          System.out.println("A thread has finished, notifying");
          nThreads = 0;
@@ -155,23 +205,25 @@ class Monitor {
          } catch(Exception e) {
             e.printStackTrace();
          }
-      }
+      }*/
    }
 
-   public synchronized String[] getArrays() {
+   synchronized String[] getArrays() {
       String[] reArr = null;
-      if(first != null) {
+      if(first != null && second != null) {
          reArr = first;
          first = null;
+         //System.out.println("got firstArr");
          return reArr;
       }
 
       else if(second != null) {
          reArr = second;
          second = null;
+         //System.out.println("got secondArr");
          return reArr;
       }
-      System.out.println("Something has gone wrong, both shouldn't be empty");
+      //System.out.println("Something has gone wrong, both shouldn't be empty");
       return null;
    }
 
@@ -181,34 +233,21 @@ class Monitor {
       return false;
    }
 
-   //Got to fix merge to work without sortArray
-   //because it would nullify the entire thread process
-   public String[] merge(String[] fir, String[] sec) {
-
-      String[] mergeArr = new String[(fir.length + sec.length)];
-
-      for (int i = 0; i < fir.length; i++) {
-         mergeArr[i] = fir[i];
-      }
-
-      for (int j = fir.length; j < sec.length; j++) {
-         mergeArr[j] = sec[j - fir.length];
-      }
-
-      return sortArray(mergeArr);
-   }
-
    public String[] sortArray(String[] arr) {
       String temp;
 
       while(!isSorted(arr)) {
           for(int i = 0; i < arr.length - 1; i++) {
-             if((arr[i].compareTo(arr[i + 1]) > 0)) {
+             if((arr[i
+             ].compareTo(arr[i + 1]) > 0)) {
                temp = arr[i];
                arr[i] = arr[i + 1];
                arr[i + 1] = temp;
              }
           }
+      }
+      for (String s : arr) {
+        //System.out.println(s + "\n");
       }
       return arr;
    }
@@ -220,5 +259,18 @@ class Monitor {
           }
       }
       return true;
+   }
+
+   public String[] getFinalArr(){
+     if(first != null) {
+       return first;
+     }
+     if(second != null) {
+       return second;
+     }
+     else {
+       //System.out.println("noe gikk galt, ingena arrayer her");
+       return null;
+     }
    }
 }
