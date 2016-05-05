@@ -4,12 +4,15 @@ class Route {
   private int totalNumbers;
   private Box box;
   private Row row;
+  private Route next;
   private Column column;
+  private boolean locked = true;
 
   public Route(int i, int dim) {
     totalNumbers = dim;
     value = (i);
     if(value < 0 || value > totalNumbers) value = 0;
+    if(value == 0) locked = false;
   }
 
   public int get() {
@@ -38,8 +41,12 @@ class Route {
     return (column == c);
   }
 
+  public void setNext(Route r) {
+    this.next = r;
+  }
+
   public int[] finnAlleMuligeTall() {
-    if(value == 0) {
+    if(!locked) {
       int[] allNumbers = new int[row.size()];
       for(int i = 0; i < allNumbers.length; i++) {
         allNumbers[i] = i + 1;
@@ -49,5 +56,17 @@ class Route {
     }
 
     return new int[]{value};
+  }
+
+  public void fillThisAndTheRest() {
+    int[] possibilities = finnAlleMuligeTall();
+
+    for(int i = 0; i < possibilities.length; i++) {
+      if(possibilities[i] != 0) {
+        value = possibilities[i];
+        //System.out.print(possibilities[i]);
+        if(next != null) next.fillThisAndTheRest();
+      }
+    }
   }
 }

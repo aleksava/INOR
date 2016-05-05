@@ -74,8 +74,9 @@ class Board {
   }
 
   public void opprettDatastruktur() {
-    Box[] boxesArr = new Box[squared];
+    Route prevRoute = null;
     Row[] rowsArr = new Row[squared];
+    Box[] boxesArr = new Box[squared];
     Column[] columnsArr = new Column[squared];
 
     for(int i = 0; i < squared; i++) {
@@ -97,6 +98,16 @@ class Board {
         this.routes[i][j].setBox(boxesArr[boxNumber(i,j)]);
       }
     }
+
+    for(int i = 0; i < squared; i++) {
+      for(int j = 0; j < squared; j++) {
+        if(prevRoute == null) {
+          prevRoute = routes[i][j++];
+        }
+        prevRoute.setNext(routes[i][j]);
+        prevRoute = routes[i][j];
+      }
+    }
   }
 
   public void testPossibleNumbers() {
@@ -109,6 +120,23 @@ class Board {
         }
         System.out.println("\n");
       }
+    }
+  }
+
+  public void solve() {
+    if(routes[0][0] != null) {
+      routes[0][0].fillThisAndTheRest();
+    }
+    System.out.println("\n");
+    showBoard();
+  }
+
+  public void printBoard() {
+    for(int i = 0; i < squared; i++) {
+      for(int j = 0; j < squared; j++) {
+        System.out.print(routes[i][j] + " ");
+      }
+      System.out.println();
     }
   }
 }

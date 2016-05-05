@@ -9,7 +9,9 @@ class Oblig8 {
     Oblig8 sudoku = new Oblig8("sudoku.txt");
     sudoku.sudokuBoard.showBoard();
     sudoku.sudokuBoard.opprettDatastruktur();
-    sudoku.sudokuBoard.testPossibleNumbers();
+    //sudoku.sudokuBoard.testPossibleNumbers();
+    sudoku.sudokuBoard.solve();
+    //sudoku.sudokuBoard.printBoard();
   }
 
   public Oblig8(String s) {
