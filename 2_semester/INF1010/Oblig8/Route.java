@@ -51,8 +51,10 @@ class Route {
       for(int i = 0; i < allNumbers.length; i++) {
         allNumbers[i] = i + 1;
       }
-
-      return row.possibleNumbers(column.possibleNumbers(box.possibleNumbers(allNumbers)));
+      System.out.println("allNumbers: " + allNumbers);
+      int[] arr = row.possibleNumbers(column.possibleNumbers(box.possibleNumbers(allNumbers)));
+      System.out.println("Initial length: " + arr.length);
+      return arr;
     }
 
     return new int[]{value};
@@ -60,12 +62,15 @@ class Route {
 
   public void fillThisAndTheRest() {
     int[] possibilities = finnAlleMuligeTall();
-
+    System.out.println("Length: " + possibilities.length);
+    for(int k = 0; k < possibilities.length; k++) {
+      System.out.print(possibilities[k]);
+    }
     for(int i = 0; i < possibilities.length; i++) {
       if(possibilities[i] != 0) {
         value = possibilities[i];
         //System.out.print(possibilities[i]);
-        if(next != null) next.fillThisAndTheRest();
+        //if(next != null) next.fillThisAndTheRest();
       }
     }
   }
